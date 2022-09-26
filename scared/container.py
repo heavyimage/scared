@@ -13,7 +13,7 @@ class Container:
             to be used by the analysis.
         preprocesses (callable or list of callable, default=[]): list of callable preprocess function
             which will be applied on samples when access to batches is invoked. Each preprocess should
-            be decored with :func:`scared.preprocess`, as it add some basic dimensions and shape verifications.
+            be decorated with :func:`scared.preprocess`, as it add some basic dimensions and shape verifications.
 
     """
 
@@ -26,7 +26,7 @@ class Container:
             to be used by the analysis.
             preprocesses (callable or list of callable, default=[]): list of callable preprocess function
                 which will be applied on samples when access to batches is invoked. Each preprocess should
-                be decored with :func:`scared.preprocess`, as it add some basic dimensions and shape verifications.
+                be decorated with :func:`scared.preprocess`, as it add some basic dimensions and shape verifications.
 
         """
         self._set_ths(ths)
@@ -90,7 +90,7 @@ class Container:
         """Provides an iterable of wrapper class around :class:`TraceHeaderSet` of size `batch_size`.
 
         The wrapper provides samples and metadatas properties. Container and frame preprocesses are applied
-        when acces to this properties are made.
+        when access to this properties are made.
 
         If `batch_size` is not provided, it is computed based on a simple mapping.
 

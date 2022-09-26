@@ -65,7 +65,7 @@ def center(traces):
         traces (numpy.ndarray): a 2 dimensional numpy array.
 
     Returns:
-        (numpy.ndarray) traces substracted of the mean on all traces.
+        (numpy.ndarray) traces subtracted of the mean on all traces.
 
     """
     return _center(traces, _np.nanmean(traces, axis=0))
@@ -79,7 +79,7 @@ def standardize(traces):
         traces (numpy.ndarray): a 2 dimensional numpy array.
 
     Returns:
-        (numpy.ndarray) traces substracted of the mean on all traces and normalized on the standard of all traces.
+        (numpy.ndarray) traces subtracted of the mean on all traces and normalized on the standard of all traces.
 
     """
     return center(traces) / _np.nanstd(traces, axis=0)

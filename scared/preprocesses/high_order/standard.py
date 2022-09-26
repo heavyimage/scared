@@ -17,7 +17,7 @@ def _centered(function, mean):
         try:
             _mean = _np.nanmean(traces, axis=0) if mean is None else mean
         except IndexError:
-            raise TypeError(f'traces must be a 2 dimensionnal numpy ndarray, not {type(traces)}.')
+            raise TypeError(f'traces must be a 2 dimensional numpy ndarray, not {type(traces)}.')
         return function(first_order._center(traces, _mean))
     return _
 
@@ -51,7 +51,7 @@ class Difference:
 
     Args:
         frame_1 (slice or iterable, default=...): first traces frame that will be taken.
-        frame_2 (slice or iterable, default=None): second optionnal traces frame that will be taken.
+        frame_2 (slice or iterable, default=None): second optional traces frame that will be taken.
         mode (str, default='full'): Combination mode between `'full'` and `'same'` values.
             In `'same'` mode, each point of `frame_1` will be combined with its corresponding point in `frame_2`.
             The two frames needs to be provided and of the same length when using this mode.
@@ -73,7 +73,7 @@ class Product:
 
     Args:
         frame_1 (slice or iterable, default=...): first traces frame that will be taken.
-        frame_2 (slice or iterable, default=None): second optionnal traces frame that will be taken.
+        frame_2 (slice or iterable, default=None): second optional traces frame that will be taken.
         mode (str, default='full'): Combination mode between `'full'` and `'same'` values.
             In `'same'` mode, each point of `frame_1` will be combined with its corresponding point in `frame_2`.
             The two frames needs to be provided and of the same length when using this mode.
@@ -91,11 +91,11 @@ class Product:
 
 
 class CenteredProduct(Product):
-    """Centered prodiuct combination preprocess for High Order analysis.
+    """Centered product combination preprocess for High Order analysis.
 
     Args:
         frame_1 (slice or iterable, default=...): first traces frame that will be taken.
-        frame_2 (slice or iterable, default=None): second optionnal traces frame that will be taken.
+        frame_2 (slice or iterable, default=None): second optional traces frame that will be taken.
         mode (str, default='full'): Combination mode between `'full'` and `'same'` values.
             In `'same'` mode, each point of `frame_1` will be combined with its corresponding point in `frame_2`.
             The two frames needs to be provided and of the same length when using this mode.
@@ -119,7 +119,7 @@ class AbsoluteDifference:
 
     Args:
         frame_1 (slice or iterable, default=...): first traces frame that will be taken.
-        frame_2 (slice or iterable, default=None): second optionnal traces frame that will be taken.
+        frame_2 (slice or iterable, default=None): second optional traces frame that will be taken.
         mode (str, default='full'): Combination mode between `'full'` and `'same'` values.
             In `'same'` mode, each point of `frame_1` will be combined with its corresponding point in `frame_2`.
             The two frames needs to be provided and of the same length when using this mode.

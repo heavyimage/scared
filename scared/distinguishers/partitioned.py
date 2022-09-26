@@ -48,14 +48,14 @@ class _PartitionnedDistinguisherBaseMixin(DistinguisherMixin):
 
         logger.info('Start accumulation of traces with boolean mask.')
         self._accumulate(traces, data, bool_mask)
-        logger.info(f'End of accumualtions of traces for {self.__class__.__name__}.')
+        logger.info(f'End of accumulations of traces for {self.__class__.__name__}.')
 
     def _accumulate_partition(self, partition_indice, partition_value, part_bool):
         pass
 
 
 class PartitionedDistinguisherMixin(_PartitionnedDistinguisherBaseMixin):
-    """Base mixin for various traces partitionning based attacks (ANOVA, NICV, SNR, ...).
+    """Base mixin for various traces partitioning based attacks (ANOVA, NICV, SNR, ...).
 
     Attacks differs mainly in the metric computation, not in the accumulation process.
 

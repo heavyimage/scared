@@ -14,7 +14,7 @@ def _fht(el):
     return _np.real(f) - _np.imag(f)
 
 
-class _TimeFrequenceCombination(_BaseCombination, Preprocess):
+class _TimeFrequencyCombination(_BaseCombination, Preprocess):
     def __init__(self, frame_1=None, frame_2=None, mode='raw'):
         super().__init__(frame_1=frame_1, frame_2=frame_2)
         if mode == 'centered':
@@ -32,28 +32,28 @@ class _TimeFrequenceCombination(_BaseCombination, Preprocess):
         return self._operation(t_1, t_2)
 
 
-class _TimeFrequencePointToPointMixin:
+class _TimeFrequencyPointToPointMixin:
 
     def _set_frames(self, frame_1=None, frame_2=None):
         frame_1, frame_2 = _process_frames(frame_1, frame_2)
         _point_to_point_frames_check(self, frame_1, frame_2)
 
 
-class _TimeFrequenceDifferentFramesMixin:
+class _TimeFrequencyDifferentFramesMixin:
 
     def _set_frames(self, frame_1=None, frame_2=None):
         frame_1, frame_2 = _process_frames(frame_1, frame_2)
         _set_frames(self, frame_1, frame_2)
 
 
-class Xcorr(_TimeFrequenceCombination, _TimeFrequencePointToPointMixin):
+class Xcorr(_TimeFrequencyCombination, _TimeFrequencyPointToPointMixin):
     """Circular Cross-Correlation combination function for second-order analysis.
 
     As described in paper: "Time-Frequency Analysis for Second-Order Attacks" (DOI:10.1007/978-3-319-08302-5_8)
 
     Args:
         frame_1 (slice or iterable, default=None): first traces frame that will be taken.
-        frame_2 (slice or iterable, default=None): second optionnal traces frame that will be taken. Must be of the same length than frame_1.
+        frame_2 (slice or iterable, default=None): second optional traces frame that will be taken. Must be of the same length than frame_1.
         mode (str, default='raw'): a value in 'raw', 'centered' and 'standardized'.
             In centered mode, a centering preprocess is applied to traces before computation.
             In standardized mode, a standardized preprocess is applied to traces before computation.
@@ -71,7 +71,7 @@ class Xcorr(_TimeFrequenceCombination, _TimeFrequencePointToPointMixin):
         )
 
 
-class WindowFFT(_TimeFrequenceCombination, _TimeFrequencePointToPointMixin):
+class WindowFFT(_TimeFrequencyCombination, _TimeFrequencyPointToPointMixin):
     """Window-FFT combination function for second-order analysis.
 
     As described in paper: "Time-Frequency Analysis for Second-Order Attacks" (DOI:10.1007/978-3-319-08302-5_8)
@@ -80,7 +80,7 @@ class WindowFFT(_TimeFrequenceCombination, _TimeFrequencePointToPointMixin):
 
     Args:
         frame_1 (slice or iterable, default=None): first traces frame that will be taken.
-        frame_2 (slice or iterable, default=None): second optionnal traces frame that will be taken. Must be of the same length than frame_1.
+        frame_2 (slice or iterable, default=None): second optional traces frame that will be taken. Must be of the same length than frame_1.
         mode (str, default='raw'): a value in 'raw', 'centered' and 'standardized'.
             In centered mode, a centering preprocess is applied to traces before computation.
             In standardized mode, a standardized preprocess is applied to traces before computation.
@@ -97,7 +97,7 @@ class WindowFFT(_TimeFrequenceCombination, _TimeFrequencePointToPointMixin):
         )
 
 
-class WindowFHT(_TimeFrequenceCombination, _TimeFrequencePointToPointMixin):
+class WindowFHT(_TimeFrequencyCombination, _TimeFrequencyPointToPointMixin):
     """Window-FHT combination function for second-order analysis.
 
     As described in paper: "Time-Frequency Analysis for Second-Order Attacks" (DOI:10.1007/978-3-319-08302-5_8)
@@ -107,7 +107,7 @@ class WindowFHT(_TimeFrequenceCombination, _TimeFrequencePointToPointMixin):
 
     Args:
         frame_1 (slice or iterable, default=None): first traces frame that will be taken.
-        frame_2 (slice or iterable, default=None): second optionnal traces frame that will be taken. Must be of the same length than frame_1.
+        frame_2 (slice or iterable, default=None): second optional traces frame that will be taken. Must be of the same length than frame_1.
         mode (str, default='raw'): a value in 'raw', 'centered' and 'standardized'.
             In centered mode, a centering preprocess is applied to traces before computation.
             In standardized mode, a standardized preprocess is applied to traces before computation.
@@ -122,7 +122,7 @@ class WindowFHT(_TimeFrequenceCombination, _TimeFrequencePointToPointMixin):
         return _fht(el1) * _fht(el2)
 
 
-class MaxCorr(_TimeFrequenceCombination, _TimeFrequenceDifferentFramesMixin):
+class MaxCorr(_TimeFrequencyCombination, _TimeFrequencyDifferentFramesMixin):
     """MaxCorr combination function for second-order analysis.
 
     As described in paper: "Time-Frequency Analysis for Second-Order Attacks" (DOI:10.1007/978-3-319-08302-5_8)
@@ -131,7 +131,7 @@ class MaxCorr(_TimeFrequenceCombination, _TimeFrequenceDifferentFramesMixin):
 
     Args:
         frame_1 (slice or iterable, default=None): first traces frame that will be taken.
-        frame_2 (slice or iterable, default=None): second optionnal traces frame that will be taken.
+        frame_2 (slice or iterable, default=None): second optional traces frame that will be taken.
         mode (str, default='raw'): a value in 'raw', 'centered' and 'standardized'.
             In centered mode, a centering preprocess is applied to traces before computation.
             In standardized mode, a standardized preprocess is applied to traces before computation.
@@ -146,7 +146,7 @@ class MaxCorr(_TimeFrequenceCombination, _TimeFrequenceDifferentFramesMixin):
         return _np.hstack([_np.real(f), _np.imag(f), _np.abs(f)])
 
 
-class ConcatFFT(_TimeFrequenceCombination, _TimeFrequenceDifferentFramesMixin):
+class ConcatFFT(_TimeFrequencyCombination, _TimeFrequencyDifferentFramesMixin):
     """Concat-FFT combination function for second-order analysis.
 
     As described in paper: "Time-Frequency Analysis for Second-Order Attacks" (DOI:10.1007/978-3-319-08302-5_8)
@@ -155,7 +155,7 @@ class ConcatFFT(_TimeFrequenceCombination, _TimeFrequenceDifferentFramesMixin):
 
     Args:
         frame_1 (slice or iterable, default=None): first traces frame that will be taken.
-        frame_2 (slice or iterable, default=None): second optionnal traces frame that will be taken.
+        frame_2 (slice or iterable, default=None): second optional traces frame that will be taken.
         mode (str, default='raw'): a value in 'raw', 'centered' and 'standardized'.
             In centered mode, a centering preprocess is applied to traces before computation.
             In standardized mode, a standardized preprocess is applied to traces before computation.
@@ -169,7 +169,7 @@ class ConcatFFT(_TimeFrequenceCombination, _TimeFrequenceDifferentFramesMixin):
         return _np.abs(_np.fft.rfft(_np.hstack([el1, el2]), axis=1))**2
 
 
-class ConcatFHT(_TimeFrequenceCombination, _TimeFrequenceDifferentFramesMixin):
+class ConcatFHT(_TimeFrequencyCombination, _TimeFrequencyDifferentFramesMixin):
     """Concat-FHT combination function for second-order analysis.
 
     As described in paper: "Time-Frequency Analysis for Second-Order Attacks" (DOI:10.1007/978-3-319-08302-5_8)
@@ -178,7 +178,7 @@ class ConcatFHT(_TimeFrequenceCombination, _TimeFrequenceDifferentFramesMixin):
 
     Args:
         frame_1 (slice or iterable, default=None): first traces frame that will be taken.
-        frame_2 (slice or iterable, default=None): second optionnal traces frame that will be taken.
+        frame_2 (slice or iterable, default=None): second optional traces frame that will be taken.
         mode (str, default='raw'): a value in 'raw', 'centered' and 'standardized'.
             In centered mode, a centering preprocess is applied to traces before computation.
             In standardized mode, a standardized preprocess is applied to traces before computation.

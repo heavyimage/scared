@@ -39,7 +39,7 @@ class _ErrorCounter:
     """Object used to count errors during resync and raise warning if too much consecutive errors occur.
 
     Attributes:
-        last_errro_id: Last error identifier.
+        last_error_id: Last error identifier.
         counter: Consecutive errors counter.
 
     Usage:
@@ -119,7 +119,7 @@ class Synchronizer:
 
         Args:
             nb_traces (int): Number of traces to test on.
-            catch_exceptions (bool): If True, exceptions are catched and just printed. You can disable it to view the full traceback.
+            catch_exceptions (bool): If True, exceptions are caught and just printed. You can disable it to view the full traceback.
 
         Returns:
             (list): Trace arrays.
@@ -140,8 +140,8 @@ class Synchronizer:
                 if catch_exceptions:
                     exc_type, exc_value, exc_traceback = _sys.exc_info()
                     last_traceback = _traceback.extract_tb(exc_traceback)[-1]
-                    formated = _traceback.format_exception(exc_type, exc_value, exc_traceback)
-                    raised = formated[-1][:-1]
+                    formatted = _traceback.format_exception(exc_type, exc_value, exc_traceback)
+                    raised = formatted[-1][:-1]
                     print(f"Raised {raised} in {last_traceback.name} line {last_traceback.lineno}.")
                 else:
                     raise exception
