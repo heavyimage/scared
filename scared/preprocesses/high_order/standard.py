@@ -20,16 +20,16 @@ def _absolute(function):
 
 
 class Difference:
-    """Difference combination preprocess for High Order analysis.
+    """Difference combination preprocess for high-order side-channel analysis.
 
     Args:
         frame_1 (slice or iterable, default=...): first traces frame that will be taken.
         frame_2 (slice or iterable, default=None): second optional traces frame that will be taken.
-        mode (str, default='full'): Combination mode between `'full'` and `'same'` values.
-            In `'same'` mode, each point of `frame_1` will be combined with its corresponding point in `frame_2`.
-            The two frames needs to be provided and of the same length when using this mode.
-            In `'full'` mode, each point of `frame_1` is combined with full `frame_2` if it is provided,
-            otherwise with the frame between the current point position in `frame_1` and the end of the frame if `distance` is None,
+        mode (str, default='full'): Combination mode either `'full'` or `'same'`.
+            In `'same'` mode, each time-sample of `frame_1` will be combined with the corresponding time-sample in `frame_2`.
+            When using this mode, the two frames needs to be provided and of the same length.
+            In `'full'` mode, each point of `frame_1` is combined with full `frame_2` if it is provided;
+            otherwise, if `distance` is None, each point of `frame_1` is combined with the following points until the end of `frame_1`;
             else with a subframe starting at the current point position in `frame_1` and of size equals to `distance`.
         distance (integer, default=None): size of the frame to combine with each point of `frame_1`. This parameter is not available if `frame_2` is provided.
 
@@ -42,16 +42,16 @@ class Difference:
 
 
 class Product:
-    """Product combination preprocess for High Order analysis.
+    """Product combination preprocess for high-order side-channel analysis.
 
     Args:
         frame_1 (slice or iterable, default=...): first traces frame that will be taken.
         frame_2 (slice or iterable, default=None): second optional traces frame that will be taken.
-        mode (str, default='full'): Combination mode between `'full'` and `'same'` values.
-            In `'same'` mode, each point of `frame_1` will be combined with its corresponding point in `frame_2`.
-            The two frames needs to be provided and of the same length when using this mode.
-            In `'full'` mode, each point of `frame_1` is combined with full `frame_2` if it is provided,
-            otherwise with the frame between the current point position in `frame_1` and the end of the frame if `distance` is None,
+        mode (str, default='full'): Combination mode either `'full'` or `'same'`.
+            In `'same'` mode, each time-sample of `frame_1` will be combined with the corresponding time-sample in `frame_2`.
+            When using this mode, the two frames needs to be provided and of the same length.
+            In `'full'` mode, each point of `frame_1` is combined with full `frame_2` if it is provided;
+            otherwise, if `distance` is None, each point of `frame_1` is combined with the following points until the end of `frame_1`;
             else with a subframe starting at the current point position in `frame_1` and of size equals to `distance`.
         distance (integer, default=None): size of the frame to combine with each point of `frame_1`. This parameter is not available if `frame_2` is provided.
 
@@ -64,19 +64,19 @@ class Product:
 
 
 class CenteredProduct(Product):
-    """Centered product combination preprocess for High Order analysis.
+    """Centered product combination preprocess for high-order side-channel analysis.
 
     Args:
         frame_1 (slice or iterable, default=...): first traces frame that will be taken.
         frame_2 (slice or iterable, default=None): second optional traces frame that will be taken.
-        mode (str, default='full'): Combination mode between `'full'` and `'same'` values.
-            In `'same'` mode, each point of `frame_1` will be combined with its corresponding point in `frame_2`.
-            The two frames needs to be provided and of the same length when using this mode.
-            In `'full'` mode, each point of `frame_1` is combined with full `frame_2` if it is provided,
-            otherwise with the frame between the current point position in `frame_1` and the end of the frame if `distance` is None,
+        mode (str, default='full'): Combination mode either `'full'` or `'same'`.
+            In `'same'` mode, each time-sample of `frame_1` will be combined with the corresponding time-sample in `frame_2`.
+            When using this mode, the two frames needs to be provided and of the same length.
+            In `'full'` mode, each point of `frame_1` is combined with full `frame_2` if it is provided;
+            otherwise, if `distance` is None, each point of `frame_1` is combined with the following points until the end of `frame_1`;
             else with a subframe starting at the current point position in `frame_1` and of size equals to `distance`.
         distance (integer, default=None): size of the frame to combine with each point of `frame_1`. This parameter is not available if `frame_2` is provided.
-        mean (numpy.ndarray, default=None): a mean array with compatible size with traces. If it None, the mean of provided traces is computed.
+        mean (numpy.ndarray, default=None): a mean array with compatible size with traces. If None, the mean of provided batch of traces is computed.
 
     """
 
@@ -88,16 +88,16 @@ class CenteredProduct(Product):
 
 
 class AbsoluteDifference:
-    """Absolute difference combination preprocess for High Order analysis.
+    """Absolute difference combination preprocess for high-order side-channel analysis.
 
     Args:
         frame_1 (slice or iterable, default=...): first traces frame that will be taken.
         frame_2 (slice or iterable, default=None): second optional traces frame that will be taken.
-        mode (str, default='full'): Combination mode between `'full'` and `'same'` values.
-            In `'same'` mode, each point of `frame_1` will be combined with its corresponding point in `frame_2`.
-            The two frames needs to be provided and of the same length when using this mode.
-            In `'full'` mode, each point of `frame_1` is combined with full `frame_2` if it is provided,
-            otherwise with the frame between the current point position in `frame_1` and the end of the frame if `distance` is None,
+        mode (str, default='full'): Combination mode either `'full'` or `'same'`.
+            In `'same'` mode, each time-sample of `frame_1` will be combined with the corresponding time-sample in `frame_2`.
+            When using this mode, the two frames needs to be provided and of the same length.
+            In `'full'` mode, each point of `frame_1` is combined with full `frame_2` if it is provided;
+            otherwise, if `distance` is None, each point of `frame_1` is combined with the following points until the end of `frame_1`;
             else with a subframe starting at the current point position in `frame_1` and of size equals to `distance`.
         distance (integer, default=None): size of the frame to combine with each point of `frame_1`. This parameter is not available if `frame_2` is provided.
 
