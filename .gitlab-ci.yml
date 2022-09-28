@@ -91,10 +91,6 @@ build-dev:conda:
     - conda install conda-build conda-verify
     - conda config --add channels $ANACONDA_CHANNEL
     - conda build --output-folder out dev
-  only:
-    - tags
-    - master
-    - dev
   artifacts:
     paths:
       - "out/*/*.tar.bz2"
@@ -121,10 +117,6 @@ deploy:conda:
     - anaconda login --username $ANACONDA_USERNAME --password $ANACONDA_PWD
     - anaconda upload out/*/scared*.tar.bz2
     - anaconda logout
-  only:
-    - tags
-    - master
-    - dev
   when: manual
   artifacts:
     paths:
