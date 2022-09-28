@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-from .__version__ import __version__ as VERSION  # noqa: F401, N812
+
 import warnings
 import logging
 
