@@ -93,6 +93,8 @@ class StandardizeOn(Preprocess):
     Args:
         mean (numpy.ndarray, default=None): use this array as mean value to center traces.
         std (numpy.ndarray, default=None): use this array as std value to normalize traces.
+        precision (numpy.dtype, default='float32'): optional parameter to define minimum numerical precision used to perform computation.
+            If input data has higher precision, it will be kept instead.
 
     Returns:
         (callable): preprocess function to compute standardization of traces around mean and std.
@@ -119,6 +121,8 @@ class CenterOn(Preprocess):
 
     Args:
         mean (numpy.ndarray): use this array as mean value to center traces.
+        precision (numpy.dtype, default='float32'): optional parameter to define minimum numerical precision used to perform computation.
+            If input data has higher precision, it will be kept instead.
 
     Returns:
         (callable): preprocess function to compute center of traces around mean.
