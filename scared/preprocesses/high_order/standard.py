@@ -56,7 +56,7 @@ class Product:
             otherwise, if `distance` is None, each point of `frame_1` is combined with the following points until the end of `frame_1`;
             else with a subframe starting at the current point position in `frame_1` and of size equals to `distance`.
         distance (integer, default=None): size of the frame to combine with each point of `frame_1`. This parameter is not available if `frame_2` is provided.
-        precision (np.dtype, default='float32'): optional parameter to define minimum numerical precision used to perform computation. 
+        precision (np.dtype, default='float32'): optional parameter to define minimum numerical precision used to perform computation.
             If input data has higher precision, it will be kept instead.
 
     """
@@ -81,7 +81,7 @@ class CenteredProduct(Product):
             else with a subframe starting at the current point position in `frame_1` and of size equals to `distance`.
         distance (integer, default=None): size of the frame to combine with each point of `frame_1`. This parameter is not available if `frame_2` is provided.
         mean (numpy.ndarray, default=None): a mean array with compatible size with traces. If None, the mean of provided batch of traces is computed.
-        precision (np.dtype, default='float32'): optional parameter to define minimum numerical precision used to perform computation. 
+        precision (np.dtype, default='float32'): optional parameter to define minimum numerical precision used to perform computation.
             If input data has higher precision, it will be kept instead.
 
     """
@@ -106,7 +106,7 @@ class AbsoluteDifference:
             otherwise, if `distance` is None, each point of `frame_1` is combined with the following points until the end of `frame_1`;
             else with a subframe starting at the current point position in `frame_1` and of size equals to `distance`.
         distance (integer, default=None): size of the frame to combine with each point of `frame_1`. This parameter is not available if `frame_2` is provided.
-        precision (np.dtype, default='float32'): optional parameter to define minimum numerical precision used to perform computation. 
+        precision (np.dtype, default='float32'): optional parameter to define minimum numerical precision used to perform computation.
             If input data has higher precision, it will be kept instead.
 
     """
