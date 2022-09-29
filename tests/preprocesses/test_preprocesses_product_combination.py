@@ -135,14 +135,14 @@ def test_product_various_dtypes(traces_dtypes):
     # Mode PointToPoint
     result = scared.preprocesses.high_order.Product(frame_1=slice(0, 50), frame_2=slice(50, 100), mode='same')(traces_dtypes)
     assert result.dtype == max(traces_dtypes.dtype, 'float32')
-    assert result.max() > traces_dtypes[:, slice(0, 50)].max()
+    assert traces_dtypes.dtype.kind in np.typecodes['Float'] or result.max() > traces_dtypes[:, slice(0, 50)].max()
 
     # Mode TwoFrames
     result = scared.preprocesses.high_order.Product(slice(None, 50))(traces_dtypes)
     assert result.dtype == max(traces_dtypes.dtype, 'float32')
-    assert result.max() > traces_dtypes[:, slice(0, 50)].max()
+    assert traces_dtypes.dtype.kind in np.typecodes['Float'] or result.max() > traces_dtypes[:, slice(0, 50)].max()
 
     # Mode FrameOnDistance
     result = scared.preprocesses.high_order.Product(slice(None, 50), distance=5)(traces_dtypes)
     assert result.dtype == max(traces_dtypes.dtype, 'float32')
-    assert result.max() > traces_dtypes[:, slice(0, 50)].max()
+    assert traces_dtypes.dtype.kind in np.typecodes['Float'] or result.max() > traces_dtypes[:, slice(0, 50)].max()
