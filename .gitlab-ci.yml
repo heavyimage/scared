@@ -93,11 +93,12 @@ build-dev:conda:
     - conda build --output-folder out dev
   artifacts:
     paths:
-      - "out/*/*.tar.bz2"
+      - ".recipe/out/*/*.tar.bz2"
 
 build:conda:
   stage: build
   script:
+    - git describe --tags --abbrev=0 > version.txt
     - cd .recipe
     - conda install conda-build conda-verify
     - conda config --add channels $ANACONDA_CHANNEL
@@ -106,11 +107,12 @@ build:conda:
     - tags
   artifacts:
     paths:
-      - "out/*/*.tar.bz2"
+      - ".recipe/out/*/*.tar.bz2"
 
 deploy:conda:
   stage: deploy
   script:
+    - cd .recipe
     - conda config --add channels $ANACONDA_CHANNEL
     - conda update conda
     - conda install anaconda-client
@@ -120,7 +122,7 @@ deploy:conda:
   when: manual
   artifacts:
     paths:
-      - "out/*/*.tar.bz2"
+      - ".recipe/out/*/*.tar.bz2"
 
 pages:
   stage: build
