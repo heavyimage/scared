@@ -155,3 +155,23 @@ def test_centered_product_various_dtypes(traces_dtypes):
     result = scared.preprocesses.high_order.CenteredProduct(slice(None, 50), distance=5)(traces_dtypes)
     assert result.dtype == max(traces_dtypes.dtype, 'float32')
     assert np.any(np.mod(result, 1) != 0)
+
+
+def test_centered_product_given_precision(traces_dtypes):
+    # Mode PointToPoint
+    result = scared.preprocesses.high_order.CenteredProduct(frame_1=slice(0, 50), frame_2=slice(50, 100), mode='same', precision='float64')(traces_dtypes)
+    expected = scared.preprocesses.high_order.CenteredProduct(frame_1=slice(0, 50), frame_2=slice(50, 100), mode='same')(traces_dtypes.astype('float64'))
+    assert result.dtype == 'float64'
+    assert np.array_equal(result, expected)
+
+    # Mode TwoFrames
+    result = scared.preprocesses.high_order.CenteredProduct(slice(None, 50), precision='float64')(traces_dtypes)
+    expected = scared.preprocesses.high_order.CenteredProduct(slice(None, 50))(traces_dtypes.astype('float64'))
+    assert result.dtype == 'float64'
+    assert np.array_equal(result, expected)
+
+    # Mode FrameOnDistance
+    result = scared.preprocesses.high_order.CenteredProduct(slice(None, 50), distance=5, precision='float64')(traces_dtypes)
+    expected = scared.preprocesses.high_order.CenteredProduct(slice(None, 50), distance=5)(traces_dtypes.astype('float64'))
+    assert result.dtype == 'float64'
+    assert np.array_equal(result, expected)

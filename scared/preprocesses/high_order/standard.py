@@ -1,5 +1,5 @@
 import numpy as _np
-from ..first_order import _center
+from ..first_order import CenterOn
 from ._base import _combination
 
 
@@ -11,8 +11,8 @@ def _difference(el1, el2):
     return (el1 - el2)
 
 
-def _centered(function, mean):
-    return lambda traces: function(_center(traces, mean))
+def _centered(function, mean, precision):
+    return lambda traces: function(CenterOn(mean=mean, precision=precision)(traces))
 
 
 def _absolute(function):
@@ -32,12 +32,14 @@ class Difference:
             otherwise, if `distance` is None, each point of `frame_1` is combined with the following points until the end of `frame_1`;
             else with a subframe starting at the current point position in `frame_1` and of size equals to `distance`.
         distance (integer, default=None): size of the frame to combine with each point of `frame_1`. This parameter is not available if `frame_2` is provided.
+        precision (np.dtype, default='float32'): optional parameter to define minimum numerical precision used to perform computation.
+            If input data has higher precision, it will be kept instead.
 
     """
 
-    def __new__(cls, frame_1=..., frame_2=None, mode='full', distance=None):
+    def __new__(cls, frame_1=..., frame_2=None, mode='full', distance=None, precision='float32'):
         return _combination(
-            _difference, frame_1=frame_1, frame_2=frame_2, mode=mode, distance=distance
+            _difference, frame_1=frame_1, frame_2=frame_2, mode=mode, distance=distance, precision=precision
         )
 
 
@@ -54,12 +56,14 @@ class Product:
             otherwise, if `distance` is None, each point of `frame_1` is combined with the following points until the end of `frame_1`;
             else with a subframe starting at the current point position in `frame_1` and of size equals to `distance`.
         distance (integer, default=None): size of the frame to combine with each point of `frame_1`. This parameter is not available if `frame_2` is provided.
+        precision (np.dtype, default='float32'): optional parameter to define minimum numerical precision used to perform computation. 
+            If input data has higher precision, it will be kept instead.
 
     """
 
-    def __new__(cls, frame_1=..., frame_2=None, mode='full', distance=None):
+    def __new__(cls, frame_1=..., frame_2=None, mode='full', distance=None, precision='float32'):
         return _combination(
-            _product, frame_1=frame_1, frame_2=frame_2, mode=mode, distance=distance
+            _product, frame_1=frame_1, frame_2=frame_2, mode=mode, distance=distance, precision=precision
         )
 
 
@@ -77,14 +81,16 @@ class CenteredProduct(Product):
             else with a subframe starting at the current point position in `frame_1` and of size equals to `distance`.
         distance (integer, default=None): size of the frame to combine with each point of `frame_1`. This parameter is not available if `frame_2` is provided.
         mean (numpy.ndarray, default=None): a mean array with compatible size with traces. If None, the mean of provided batch of traces is computed.
+        precision (np.dtype, default='float32'): optional parameter to define minimum numerical precision used to perform computation. 
+            If input data has higher precision, it will be kept instead.
 
     """
 
-    def __new__(cls, frame_1=..., frame_2=None, mode='full', distance=None, mean=None):
+    def __new__(cls, frame_1=..., frame_2=None, mode='full', distance=None, mean=None, precision='float32'):
         return _centered(
             _combination(
-                _product, frame_1=frame_1, frame_2=frame_2, mode=mode, distance=distance
-            ), mean=mean)
+                _product, frame_1=frame_1, frame_2=frame_2, mode=mode, distance=distance, precision=precision
+            ), mean=mean, precision=precision)
 
 
 class AbsoluteDifference:
@@ -100,10 +106,12 @@ class AbsoluteDifference:
             otherwise, if `distance` is None, each point of `frame_1` is combined with the following points until the end of `frame_1`;
             else with a subframe starting at the current point position in `frame_1` and of size equals to `distance`.
         distance (integer, default=None): size of the frame to combine with each point of `frame_1`. This parameter is not available if `frame_2` is provided.
+        precision (np.dtype, default='float32'): optional parameter to define minimum numerical precision used to perform computation. 
+            If input data has higher precision, it will be kept instead.
 
     """
 
-    def __new__(cls, frame_1=..., frame_2=None, mode='full', distance=None):
+    def __new__(cls, frame_1=..., frame_2=None, mode='full', distance=None, precision='float32'):
         return _absolute(
-            _combination(_difference, frame_1=frame_1, frame_2=frame_2, mode=mode, distance=distance)
+            _combination(_difference, frame_1=frame_1, frame_2=frame_2, mode=mode, distance=distance, precision=precision)
         )

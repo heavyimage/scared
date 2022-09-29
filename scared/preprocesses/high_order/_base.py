@@ -30,7 +30,7 @@ class _CombinationPointToPoint(_BaseCombination):
             raise PreprocessError('This combination mode needs frame 1 and frame 2 to be provided and of the same length.')
 
     def __call__(self, traces):
-        dtype = max(traces.dtype, 'float32')
+        dtype = max(traces.dtype, self.precision)
         frame_1 = ... if self.frame_1 is None else self.frame_1
         frame_2 = ... if self.frame_2 is None else self.frame_2
         return self._operation(traces[:, frame_1].astype(dtype),
@@ -46,7 +46,7 @@ class _CombinationOfTwoFrames(_BaseCombination):
         super()._set_frames(frame_1, frame_2)
 
     def __call__(self, traces):
-        dtype = max(traces.dtype, 'float32')
+        dtype = max(traces.dtype, self.precision)
         chunk_1 = traces[:, self.frame_1].astype(dtype)
         chunk_2 = traces[:, self.frame_2].astype(dtype)
 
@@ -88,7 +88,7 @@ class _CombinationFrameOnDistance(_BaseCombination):
         return cnt, result
 
     def __call__(self, traces):
-        dtype = max(traces.dtype, 'float32')
+        dtype = max(traces.dtype, self.precision)
         chunk_1 = chunk_2 = traces[:, self.frame_1].astype(dtype)
         result_size, _ = self._execute(chunk_1, chunk_2)
 
@@ -97,7 +97,7 @@ class _CombinationFrameOnDistance(_BaseCombination):
         return result
 
 
-def _combination(operation, frame_1, frame_2=None, mode='full', distance=None):
+def _combination(operation, frame_1, frame_2=None, mode='full', distance=None, precision='float32'):
     if mode not in ['same', 'full']:
         raise PreprocessError('Only same or full mode are available for combination preprocesses.')
     if distance is not None and (mode == 'same' or frame_2 is not None):
@@ -106,10 +106,10 @@ def _combination(operation, frame_1, frame_2=None, mode='full', distance=None):
         raise PreprocessError('same mode requires two frames.')
 
     if distance is not None:
-        res = _CombinationFrameOnDistance(frame_1=frame_1, distance=distance)
+        res = _CombinationFrameOnDistance(frame_1=frame_1, distance=distance, precision=precision)
     elif mode == 'same' and frame_2 is not None:
-        res = _CombinationPointToPoint(frame_1=frame_1, frame_2=frame_2)
+        res = _CombinationPointToPoint(frame_1=frame_1, frame_2=frame_2, precision=precision)
     else:
-        res = _CombinationOfTwoFrames(frame_1=frame_1, frame_2=frame_2)
+        res = _CombinationOfTwoFrames(frame_1=frame_1, frame_2=frame_2, precision=precision)
     res._operation = operation
     return res
