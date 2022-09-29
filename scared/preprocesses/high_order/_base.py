@@ -2,9 +2,11 @@ from .._base import PreprocessError, Preprocess
 import numpy as _np
 
 
-class _BaseCombination:
+class _BaseCombination(Preprocess):
 
-    def __init__(self, **kwargs):
+    def __init__(self, precision='float32', **kwargs):
+        super().__init__()
+        self.precision = _np.dtype(precision)
         self._set_frames(**kwargs)
 
     def _set_frame(self, name, frame):
@@ -20,7 +22,7 @@ class _BaseCombination:
         self._set_frame('frame_2', frame_2)
 
 
-class _CombinationPointToPoint(Preprocess, _BaseCombination):
+class _CombinationPointToPoint(_BaseCombination):
 
     def _set_frames(self, frame_1, frame_2):
         super()._set_frames(frame_1, frame_2)
@@ -28,12 +30,14 @@ class _CombinationPointToPoint(Preprocess, _BaseCombination):
             raise PreprocessError('This combination mode needs frame 1 and frame 2 to be provided and of the same length.')
 
     def __call__(self, traces):
+        dtype = max(traces.dtype, 'float32')
         frame_1 = ... if self.frame_1 is None else self.frame_1
         frame_2 = ... if self.frame_2 is None else self.frame_2
-        return self._operation(traces[:, frame_1], traces[:, frame_2])
+        return self._operation(traces[:, frame_1].astype(dtype),
+                               traces[:, frame_2].astype(dtype))
 
 
-class _CombinationOfTwoFrames(Preprocess, _BaseCombination):
+class _CombinationOfTwoFrames(_BaseCombination):
 
     def _set_frames(self, frame_1, frame_2):
         self._frame_2_was_none = frame_2 is None
@@ -42,14 +46,16 @@ class _CombinationOfTwoFrames(Preprocess, _BaseCombination):
         super()._set_frames(frame_1, frame_2)
 
     def __call__(self, traces):
-        chunk_1 = traces[:, self.frame_1]
-        chunk_2 = traces[:, self.frame_2]
+        dtype = max(traces.dtype, 'float32')
+        chunk_1 = traces[:, self.frame_1].astype(dtype)
+        chunk_2 = traces[:, self.frame_2].astype(dtype)
 
         if self._frame_2_was_none:
             result_size = sum(range(chunk_1.shape[1] + 1))
         else:
             result_size = chunk_1.shape[1] * chunk_2.shape[1]
-        result = _np.empty((traces.shape[0], result_size), dtype=traces.dtype)
+        result = _np.empty((traces.shape[0], result_size), dtype=dtype)
+
         cnt = 0
         for i in range(chunk_1.shape[1]):
             if self._frame_2_was_none:
@@ -62,7 +68,7 @@ class _CombinationOfTwoFrames(Preprocess, _BaseCombination):
         return result
 
 
-class _CombinationFrameOnDistance(Preprocess, _BaseCombination):
+class _CombinationFrameOnDistance(_BaseCombination):
 
     def _set_frames(self, frame_1, distance):
         super()._set_frames(frame_1, None)
@@ -82,10 +88,11 @@ class _CombinationFrameOnDistance(Preprocess, _BaseCombination):
         return cnt, result
 
     def __call__(self, traces):
-        chunk_1 = chunk_2 = traces[:, self.frame_1]
-
+        dtype = max(traces.dtype, 'float32')
+        chunk_1 = chunk_2 = traces[:, self.frame_1].astype(dtype)
         result_size, _ = self._execute(chunk_1, chunk_2)
-        result = _np.empty((traces.shape[0], result_size), dtype=traces.dtype)
+
+        result = _np.empty((traces.shape[0], result_size), dtype=dtype)
         _, result = self._execute(chunk_1, chunk_2, result=result)
         return result
 
