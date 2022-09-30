@@ -1,4 +1,3 @@
-
 # This file helps to compute a version number in source trees obtained from
 # git-archive tarball (such as those provided by githubs download-from-tag
 # feature). Distribution tarballs (built by setup.py sdist) and build
@@ -10,6 +9,7 @@
 
 """Git implementation of _version.py."""
 
+# pylint: skip-file
 import errno
 import os
 import re
