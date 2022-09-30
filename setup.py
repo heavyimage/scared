@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 import sys
-import os
 
 from setuptools import setup
 from setuptools.command.test import test
 import logging
+import versioneer
 
 logger = logging.getLogger(__name__)
 
@@ -25,14 +25,7 @@ class PyTest(test):
         sys.exit(errno)
 
 
-here = os.path.abspath(os.path.dirname(__file__))
-
-about = {}
-with open(os.path.join(here, "__version__.py")) as f:
-    exec(f.read(), about)
-
-
 setup(
-    version=about['__version__'],
-    cmdclass={"test": PyTest}
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(cmdclass={"test": PyTest}),
 )
