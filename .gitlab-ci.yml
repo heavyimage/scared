@@ -86,7 +86,6 @@ deploy:pypi:
 build-dev:conda:
   stage: build
   script:
-    - git describe --tags --abbrev=0 > version.txt
     - cd .recipe
     - conda install conda-build conda-verify
     - conda config --add channels $ANACONDA_CHANNEL
@@ -98,7 +97,6 @@ build-dev:conda:
 build:conda:
   stage: build
   script:
-    - git describe --tags --abbrev=0 > version.txt
     - cd .recipe
     - conda install conda-build conda-verify
     - conda config --add channels $ANACONDA_CHANNEL
