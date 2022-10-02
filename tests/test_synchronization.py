@@ -39,7 +39,7 @@ def test_error_counter_warns_every_consecutive_error_with_limit_doubling_each_ti
 
 @pytest.fixture
 def sample_directory():
-    shutil.copytree(SAMPLE_DIRECTORY, WORKING_DIRECTORY, dirs_exist_ok=True)
+    shutil.copytree(SAMPLE_DIRECTORY, WORKING_DIRECTORY)
     yield WORKING_DIRECTORY
     shutil.rmtree(WORKING_DIRECTORY)
 
