@@ -13,6 +13,7 @@ from .context import scared
 WORKING_DIRECTORY = 'tests/samples_workdir/'
 SAMPLE_DIRECTORY = 'tests/samples/'
 
+
 def test_error_counter_warns_every_consecutive_error_with_limit_doubling_each_time():
     warn_counter = 0
     with warnings.catch_warnings():
